@@ -12,3 +12,14 @@ describe('any-api routes', () => {
     pool.end();
   });
 });
+
+it('creates a cat', async () => {
+  const expected = {
+    name: 'Xena',
+    age: 1,
+    favoriteToy: 'Hair tie',
+  };
+  const res = await request(app).post('/api/v1/cats').send(expected);
+
+  expect(res.body).toEqual({ id: expect.any(String), ...expected });
+});
