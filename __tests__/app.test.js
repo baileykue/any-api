@@ -31,7 +31,7 @@ describe('any-api routes', () => {
     expect(res.body).toEqual(expected);
   });
 
-  it('should retrieve the individual cat with mtaching id', async () => {
+  it('should retrieve the individual cat with matching id', async () => {
     const data = {
       name: 'Xena',
       age: 1,
@@ -41,5 +41,27 @@ describe('any-api routes', () => {
     const res = await request(app).get(`/api/v1/cats/${cat.id}`);
 
     expect(res.body).toEqual(cat);
+  });
+
+  it('should be able to update a cat', async () => {
+    const data = {
+      name: 'Xena',
+      age: 1,
+      favoriteToy: 'Hair tie',
+    };
+    const cat = await Cat.insert(data);
+
+    const update = { age: 2, favoriteToy: 'mini soccer ball' };
+    const res = await request(app).patch(`/api/v1/cats/${cat.id}`).send(update);
+
+    const expected = {
+      id: expect.any(String),
+      name: 'Xena',
+      age: 2,
+      favoriteToy: 'mini soccer ball',
+    };
+
+    expect(res.body).toEqual(expected);
+    expect(await Cat.getById(cat.id)).toEqual(expected);
   });
 });
