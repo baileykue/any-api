@@ -23,4 +23,11 @@ describe('any-api routes', () => {
 
     expect(res.body).toEqual({ id: expect.any(String), ...expected });
   });
+
+  it('should be able to gather all cats', async () => {
+    const expected = await Cat.getAll();
+    const res = await request(app).get('/api/v1/cats');
+
+    expect(res.body).toEqual(expected);
+  });
 });
