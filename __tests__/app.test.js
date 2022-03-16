@@ -30,4 +30,16 @@ describe('any-api routes', () => {
 
     expect(res.body).toEqual(expected);
   });
+
+  it('should retrieve the individual cat with mtaching id', async () => {
+    const data = {
+      name: 'Xena',
+      age: 1,
+      favoriteToy: 'Hair tie',
+    };
+    const cat = await Cat.insert(data);
+    const res = await request(app).get(`/api/v1/cats/${cat.id}`);
+
+    expect(res.body).toEqual(cat);
+  });
 });
