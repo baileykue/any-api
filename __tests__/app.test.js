@@ -3,6 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const Cat = require('../lib/models/Cat');
+const { createTestScheduler } = require('jest');
 
 describe('any-api routes', () => {
   beforeEach(() => {
@@ -25,10 +26,17 @@ describe('any-api routes', () => {
   });
 
   it('should be able to gather all cats', async () => {
-    const expected = await Cat.getAll();
-    const res = await request(app).get('/api/v1/cats');
+    const data = {
+      name: 'Xena',
+      age: 1,
+      favoriteToy: 'Hair tie',
+    };
+    const cat = await Cat.insert(data);
 
-    expect(res.body).toEqual(expected);
+    const [expected] = await Cat.getAll();
+    //const res = await request(app).get('/api/v1/cats');
+
+    expect(expected).toEqual(cat);
   });
 
   it('should retrieve the individual cat with matching id', async () => {
