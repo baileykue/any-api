@@ -65,14 +65,13 @@ describe('any-api routes', () => {
     expect(await Cat.getById(cat.id)).toEqual(expected);
   });
 
-  it.only('should be able to delete individual cat', async () => {
+  it('should be able to delete individual cat', async () => {
     const data = {
       name: 'Xena',
       age: 1,
       favoriteToy: 'Hair tie',
     };
     const cat = await Cat.insert(data);
-    console.log(cat);
 
     const res = await request(app).delete(`/api/v1/cats/${cat.id}`);
 
