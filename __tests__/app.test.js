@@ -34,8 +34,9 @@ describe('any-api routes', () => {
     const cat = await Cat.insert(data);
 
     const res = await request(app).get('/api/v1/cats');
+    console.log(res.body);
 
-    expect(res.body).toEqual(cat);
+    expect(res.body).toEqual([cat]);
   });
 
   it('should retrieve the individual cat with matching id', async () => {
